@@ -1,0 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public class Pos {
+    
+    private final int x;
+    private final int y;
+    
+    
+    public Pos(int x, int y){
+        this.x = x;
+        this.y = y; 
+    }
+    
+    public int x(){
+        return this.x;
+    }
+    public int y(){
+        return this.y;
+    }
+    public boolean isNextPos(Pos pos){
+        int xDiffer = Math.abs(x - pos.x());
+        int yDiffer = Math.abs(y - pos.y());
+        
+        return ((xDiffer == 1 && yDiffer == 0) || (xDiffer == 0 && yDiffer == 1));
+    }
+}

@@ -1,0 +1,27 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public class NextPlayer {
+    private Player player;
+    
+    NextPlayer(Player player){
+        this.player = player;
+    }
+    NextPlayer(Bot player){
+        this.player = player;
+    }
+    NextPlayer(Human player){
+        this.player = player;
+    }
+    public Player getNextPlayer(){
+        return this.player;
+    }
+}

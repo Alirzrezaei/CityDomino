@@ -1,0 +1,151 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public class Board {
+    
+    private Cards[][] cells;
+    
+    
+    private final Cards E = Cards.E;
+    private final Cards CC = Cards.CC;
+    
+    private GUIConnector gui;
+    
+    
+    
+    public Board(GUIConnector gui, int x, int y){
+        this.gui = gui;
+        
+        this.cells = new Cards[x][y];
+        this.clear();
+        
+        setStarter();
+    }
+    
+    /**
+     * this constructor is for testing. 
+     * @param hCells
+     * @param gui 
+     */
+    Board(GUIConnector gui, Cards[][] cells){
+        this.cells = cells;
+        this.gui = gui;
+    }
+    
+    Cards[][] getCells(){
+        return this.cells;
+    }
+    
+    public int getRows(){
+        return cells.length;
+    }
+    public int getColumns(){
+        return cells[0].length;
+    }
+    
+    public void clear(){
+        for (int c = 0; c < getColumns(); c++) {
+            for (int r = 0; r < getRows(); r++) {
+                cells[c][r] = E;   
+            }
+        }
+    }
+    public boolean isValidX(int x){
+        return x >= 0 && x < cells.length;
+    }
+    
+    public boolean isValidY(int y){
+        return y >= 0 && y < cells[0].length;
+    }
+    public boolean isValidPosition(Pos p){
+        return isValidX(p.x()) && isValidY(p.y());
+    }
+    public boolean isEmplyPos(Pos p){
+        return cells[p.x()][p.y()] == E;
+    }
+    public Cards getCells(int x, int y){
+        assert isValidX(x);
+        assert isValidY(y);
+        
+        return cells[x][y];
+    }
+    public Cards getCells(Pos p){
+        return getCells(p.x(), p.y());
+    }
+    
+    /**
+     * this method is putting the city center in the middle of the board and
+     * update the graphic with picture.
+     */
+    public void setStarter(){
+        
+        int x = (int) (cells.length / 2) + 1;
+        int y = (int) (cells[0].length / 2) + 1;
+        
+        cells[x][y] = CC;
+        
+        //TODO graphic 
+        
+    }
+    /**
+     * Check if the given domino and position is fitted in the board.
+     * 
+     * @param domino
+     * @param pFst
+     * @return 
+     */
+    public boolean fits(Domino domino, Pos pFst){
+        
+        return true;
+    }
+    /**
+     * return number of occupied sides of the given position
+     * @param p
+     * @return 
+     */
+    private int occupiedSide(Pos p){
+        return 0;
+    }
+    private Pos touchCell(Pos p){
+        return new Pos(0, 0);
+    }
+    /**
+     * this method is laying the given domino in the given position. 
+     * @param domino
+     * @param pFst 
+     */
+    public void lay(Domino domino, Pos pFst){
+        //TODO
+    }
+    /**
+     * this method is receives a domino and try to find a position for that. 
+     * @param domino
+     * @return 
+     */
+    public Pos findPos(Domino domino){
+        boolean posFound = false;
+        Pos newPos = null;
+       
+        
+        
+        return new Pos(0, 0);
+    }
+    @Override
+    public String toString(){
+        return "NOTHING YET";
+    }
+    
+    //for test
+    public int testOccupiedSide(Pos pos){
+        return occupiedSide(pos);
+    }
+            
+}

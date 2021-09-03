@@ -1,0 +1,91 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author Alireza
+ */
+public class DominoTest {
+    
+    public DominoTest() {
+    }
+
+    @Test
+    public void testDominoConstuctor_withRotatio() {
+        Domino domino = new Domino(Tiles.THREE, 0);
+        
+        assertEquals(0, domino.getRotation());
+        
+        assertEquals(Cards.H0, domino.getFst());
+        assertEquals(Cards.H0, domino.getsnd());        
+    }
+    @Test
+    public void testDominoConstuctor_withRotatio1() {
+        Domino domino = new Domino(Tiles.TEN, 2);
+        
+        assertEquals(2, domino.getRotation());
+        
+        assertEquals(Cards.S0, domino.getFst());
+        assertEquals(Cards.S0, domino.getsnd());        
+    }
+    @Test
+    public void testDominoConstuctor_withoutRotation(){
+        Domino domino = new Domino(Tiles.FIVE);
+        
+        assertEquals(0, domino.getRotation());
+        
+        assertEquals(Cards.H0, domino.getFst());
+        assertEquals(Cards.H0, domino.getsnd());       
+    }
+    @Test
+    public void testIncrementRotation_1(){
+        Domino domino = new Domino(Tiles.EIGHTTEEN);
+        
+        assertEquals(0, domino.getRotation());
+       
+        assertEquals(Cards.H0, domino.getFst());
+        assertEquals(Cards.S0, domino.getsnd()); 
+        
+        domino.rotIncrement();
+        
+        assertEquals(1, domino.getRotation());
+       
+        assertEquals(Cards.H0, domino.getFst());
+        assertEquals(Cards.S0, domino.getsnd()); 
+    }
+     @Test
+    public void testIncrementRotation_2(){
+        Domino domino = new Domino(Tiles.EIGHTTEEN);
+        
+        assertEquals(0, domino.getRotation());
+       
+        assertEquals(Cards.H0, domino.getFst());
+        assertEquals(Cards.S0, domino.getsnd()); 
+        
+        domino.rotIncrement();
+        domino.rotIncrement();
+        
+        assertEquals(2, domino.getRotation());
+       
+        assertEquals(Cards.S0, domino.getFst());
+        assertEquals(Cards.H0, domino.getsnd()); 
+    }
+    @Test
+    public void toStirng(){
+        Domino domino = new Domino(Tiles.ONE);
+        
+        System.out.print(domino.toString());
+        assertEquals("Tile: ONE First: P0 Second: P0 Rotation: 0", domino.toString());
+    }
+    
+    
+    
+    
+}

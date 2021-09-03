@@ -1,0 +1,38 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public class Bot extends Player{
+    
+    private final boolean isBot = true;
+    /**
+     * a constructor to receive board and domino for the user
+     * @param name
+     * @param board
+     * @param domino 
+     */
+    public Bot(String name, int id, Board board, Domino domino) {
+        super(name, id,board, domino);
+  
+    }
+    /**
+     * the constructor to receive dimensions to create a board for player
+     * @param name
+     * @param x
+     * @param y 
+     */
+    public Bot(String name, int id, int x, int y){
+        super("Bot"+name, id, x, y);
+ 
+    }
+    public boolean isBot(){
+        return this.isBot;
+    }
+}

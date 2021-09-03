@@ -1,0 +1,23 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public enum Cards {
+    P0(0), H0(0), A0(0), S0(0), O0(0), I0(0), P1(1), H1(1), A1(1), S1(1), O1(1), I1(1), S2(2), O2(2), I2(3), I3(3), CC(0), E(0);
+    
+    int point;
+    
+    Cards(int point){
+        this.point = point;
+    }
+    int getPoint(){
+        return point;
+    }
+}

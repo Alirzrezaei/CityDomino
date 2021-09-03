@@ -1,0 +1,75 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+import java.util.List;
+import java.util.LinkedList;
+/**
+ *
+ * @author Alireza
+ */
+public class Game implements GUItoGame{
+    private Board board;
+    
+    private final int NoOfPlayer = Players.values().length;
+    
+    private Domino[] nextBox;
+    private Domino[] currentBox;
+    
+    private Domino CurrentDomino;
+    private Players currentPl;
+    
+    private GUIConnector gui;
+    
+    private final List<Domino> list;
+    
+    Game(GUIConnector gui, int x, int y, Players currentPlayer, Domino currentDomino, Domino[] nextBox, Domino[] currentBox){
+        this.gui = gui;
+        this.currentPl = currentPlayer;
+        this.CurrentDomino = currentDomino;
+        this.board = new Board(gui, x, y);
+       // this.nextBox = new Domino[Next_Size];
+        for(int i = 0; i < nextBox.length; i++){
+            setToNextBox(nextBox);
+        }
+        
+        start();
+          
+    }
+    private void setToNextBox(Domino[] nextBox){
+        
+    }
+    
+    @Override
+    public void start() {
+    }
+
+    @Override
+    public void save() {
+    }
+
+    @Override
+    public void load() {
+    }
+
+    @Override
+    public void boxClick() {
+    }
+
+    @Override
+    public void clickOnNext() {
+    }
+
+    @Override
+    public boolean fits() {
+       return true;
+    }
+
+    @Override
+    public void setOnTheBoard() {
+        
+    }
+    
+}

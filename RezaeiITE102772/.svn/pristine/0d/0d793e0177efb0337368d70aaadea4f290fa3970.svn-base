@@ -1,0 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public interface GUIConnector {
+ 
+    public void setToNext(int index, Domino domino);
+    
+    
+    public void showInChooseBox(Domino domino);
+
+   
+    public void updateGrid(Board board);
+
+    
+    public void showOnGrid(Pos fstPos, Cards fstValue, Pos sndPos, Cards sndValue, int id);
+
+    
+    public void showResult(Result result);
+
+
+    public void showWhosTurn(String name);
+    
+    public void setToCurrent(int index, Domino domino);
+}

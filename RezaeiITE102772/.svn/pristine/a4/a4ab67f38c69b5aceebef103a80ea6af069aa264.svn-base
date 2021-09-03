@@ -1,0 +1,117 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public class Board {
+    
+    private Cards[][] cells;
+    
+    
+    private final Cards E = Cards.E;
+    private final Cards CC = Cards.CC;
+    
+    private GUIConnector gui;
+    
+    
+    
+    public Board(GUIConnector gui, int x, int y){
+        this.gui = gui;
+        
+        this.cells = new Cards[x][y];
+        this.clear();
+    }
+    
+    /**
+     * this constructor is for testing. 
+     * @param hCells
+     * @param gui 
+     */
+    Board(GUIConnector gui, Cards[][] cells){
+        this.cells = cells;
+        this.gui = gui;
+    }
+    
+    Cards[][] getCells(){
+        return this.cells;
+    }
+    
+    public int getRows(){
+        return cells.length;
+    }
+    public int getColumns(){
+        return cells[0].length;
+    }
+    
+    public void clear(){
+        for (int c = 0; c < getColumns(); c++) {
+            for (int r = 0; r < getRows(); r++) {
+                cells[c][r] = E;   
+            }
+        }
+    }
+    public boolean isValidX(int x){
+        return x >= 0 && x < cells.length;
+    }
+    
+    public boolean isValidY(int y){
+        return y >= 0 && y < cells[0].length;
+    }
+    public boolean isValidPosition(Pos p){
+        return isValidX(p.x()) && isValidY(p.y());
+    }
+    public boolean isEmplyPos(Pos p){
+        return cells[p.x()][p.y()] == E;
+    }
+    public Cards getCells(int x, int y){
+        assert isValidX(x);
+        assert isValidY(y);
+        
+        return cells[x][y];
+    }
+    public Cards getCells(Pos p){
+        return getCells(p.x(), p.y());
+    }
+    public void setStarter(){
+        
+        int x = (int) (cells.length / 2) + 1;
+        int y = (int) (cells[0].length / 2) + 1;
+        
+        cells[x][y] = CC;
+        
+        //TODO
+        
+    }
+    public boolean fits(Domino domino, Pos pFst){
+        return true;
+    }
+    
+    private int occupiedSide(Pos p){
+        return 0;
+    }
+    private Pos touchCell(Pos p){
+        return new Pos(0, 0);
+    }
+    public void lay(Domino domino, Pos pFst){
+        //TODO
+    }
+    public Pos findPos(Domino domino){
+        return new Pos(0, 0);
+    }
+    @Override
+    public String toString(){
+        return "NOTHING YET";
+    }
+    
+    //for test
+    public int testOccupiedSide(Pos pos){
+        return occupiedSide(pos);
+    }
+            
+}

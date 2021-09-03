@@ -1,0 +1,8 @@
+Human0 chose [ P1, A0 ] at index 1 Human0 did not use [ O0, O0 ]
+Bot1 chose [ H1, S0 ] at index 2 Bot1 put [ P1, A0 ] horizontally to ( 0, 4 )
+Bot2 chose [ O0, I2 ] at index 3 Bot2 put [ S0, H1 ] horizontally to ( 0, 4 )
+Bot3 chose [ O0, O0 ] at index 0 Bot3 put [ I2, O0 ] vertically to ( 4, 3 )
+Bot3 chose [ P1, H0 ] at index 2 Bot3 put [ O0, O0 ] horizontally to ( 2, 4 )
+Human0 chose [ I1, P0 ] at index 3 Human0 put [ A0, P1 ] vertically to ( 4, 0 )
+Bot1 chose [ S0, S0 ] at index 1 Bot1 put [ H1, S0 ] vertically to ( 4, 3 )
+Bot2 chose [ A0, A0 ] at index 0 Bot2 put [ I2, O0 ] vertically to ( 2, 3 )

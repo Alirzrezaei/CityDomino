@@ -1,0 +1,66 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+import java.util.Arrays;
+
+/**
+ *
+ * @author Alireza
+ */
+    
+    
+public class Result {
+    private String winner;
+    private int winnerPoint = 0;
+    private Player [] players;
+    
+    Result(Player[] players){
+        this.players = players;
+        //this.winnerPoint = winnerPoint;
+        //this.winner = winner;
+        getWinner(players);
+    }
+    private void getWinner(Player[] players){
+        String winner = "";
+        int temp;
+        int point = 0;
+        
+        for(int i = 0; i < players.length; i++){
+            temp = players[i].getBoard().CalcPointsFinal(players[i].getName());
+            if(temp > point){
+                point = temp;
+                winner =  players[i].getName();
+            }
+        }
+        this.winnerPoint = point;
+        this.winner = winner;    
+    }
+    public int getWinnerPoint(){
+        return this.winnerPoint;
+    }
+    public String getWinner(){
+        return this.winner;
+    }
+    public Player[] getPlayer(){
+        return this.players;
+    }
+    public String baords(Player[] player){
+        String boards = "";
+        
+        for(int i = 0; i < player.length; i++){
+            boards = boards + player[i].getName() + "\n";
+            boards = boards + player[i].getBoard().toString()+ "\n";
+            boards = boards + player[i].getBoard().CalcPoints() +"\n";
+            boards = boards + "-----------------------\n";
+        }
+                
+        return boards;
+    }
+    
+    
+    
+}

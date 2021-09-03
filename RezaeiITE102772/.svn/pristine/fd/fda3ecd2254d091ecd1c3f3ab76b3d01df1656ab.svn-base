@@ -1,0 +1,14 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public enum Cards {
+    P0, H0, A0, S0, O0, I0, P1, H1, A1, S1, O1, I1, S2, O2, I2, I3, CC, E;
+}

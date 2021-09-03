@@ -1,0 +1,21 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public enum Players {
+    HUMAN, BOT1, BOT2, BOT3;
+    
+    
+    public Players next() {
+        int ord = this.ordinal();
+        ord = (ord + 1) % Players.values().length;
+        return Players.values()[ord];
+    }
+}

@@ -1,0 +1,98 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Random;
+/**
+ *
+ * @author Alireza
+ */
+public class Game implements GUItoGame{
+    private Board hBoard;
+    private Board b1Board;
+    private Board b2Board;
+    private Board b3Board;
+    
+    private final int NoOfPlayer = Players.values().length;
+    
+    private Domino[] nextBox;
+    private Domino[] currentBox;
+    
+    private Domino CurrentDomino;
+    private Players currentPl;
+    
+    private GUIConnector gui;
+    
+    private final List<Domino> stack;
+    
+    Game(GUIConnector gui, int x, int y, Players currentPlayer, Domino currentDomino, Domino[] nextBox, Domino[] currentBox){
+        this.gui = gui;
+        this.currentPl = currentPlayer;
+        this.CurrentDomino = currentDomino;
+        this.hBoard = new Board(gui, x, y);
+        this.b1Board = new Board(gui, x, y);
+        this.b2Board = new Board(gui, x, y);
+        this.b3Board = new Board(gui, x, y);
+       // this.nextBox = new Domino[Next_Size];
+        for(int i = 0; i < nextBox.length; i++){
+            setToNextBox(i, nextBox[i]);
+        }
+        this.stack = new LinkedList<>();
+        start();
+          
+    }
+    
+    void setToNextBox(int idx, Domino domino){
+        this.nextBox[idx] = domino;
+    }
+    void deal(List<Domino> stack){
+       stack = Domino.fill(stack);
+       
+       for(int i = 0; i < Players.values().length; i++){
+           setToNextBox(i, getDomFromStack(stack));
+       }
+        
+    }
+    Domino getDomFromStack(List<Domino> stack) {
+        Random rand = new Random();
+        return stack.size() > 0
+                ? stack.remove(rand.nextInt(stack.size()))
+                : null;
+    }
+    @Override
+    public void start() {
+        
+        deal(stack);
+    }
+
+    @Override
+    public void save() {
+    }
+
+    @Override
+    public void load() {
+    }
+
+    @Override
+    public void boxClick() {
+    }
+
+    @Override
+    public void clickOnNext() {
+    }
+
+    @Override
+    public boolean fits() {
+       return true;
+    }
+
+    @Override
+    public void setOnTheBoard() {
+        
+    }
+    
+}

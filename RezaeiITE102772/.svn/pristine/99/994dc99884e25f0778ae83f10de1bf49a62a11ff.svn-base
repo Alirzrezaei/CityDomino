@@ -1,0 +1,124 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public class Board {
+    
+    private Cards[][] humanCells;
+    private Cards[][] bot1Cells;
+    private Cards[][] bot2Cells;
+    private Cards[][] bot3Cells;
+    
+    private final Cards E = Cards.E;
+    private final Cards CC = Cards.CC;
+    
+    private GUIConnector gui;
+    
+    
+    public Board(Cards[][] hCells, Cards[][] b1Cells, Cards[][] b2Cells, Cards[][] b3Cells, GUIConnector gui){
+        this.humanCells = hCells;
+        this.bot1Cells = b1Cells;
+        this.bot2Cells = b2Cells;
+        this.bot3Cells = b3Cells;
+        
+        this.gui = gui;       
+    }
+    public Board(GUIConnector gui, int x, int y){
+        this.gui = gui;
+        
+        this.humanCells = new Cards[x][y];
+    }
+    
+    /**
+     * this constructor is for testing. 
+     * @param hCells
+     * @param gui 
+     */
+    Board(Cards[][] hCells, GUIConnector gui){
+        this.humanCells = hCells;
+        this.gui = gui;
+    }
+    
+    Cards[][] getHumanCells(){
+        return this.humanCells;
+    }
+    Cards[][] getBot1Cells(){
+        return this.bot1Cells;
+    }
+    Cards[][] getBot2Cells(){
+        return this.bot2Cells;
+    }
+    Cards[][] getBot3Cells(){
+        return this.bot3Cells;
+    }
+    
+    public int getRows(Cards[][] cells){
+        return cells.length;
+    }
+    public int getColumns(Cards[][] cells){
+        return cells[0].length;
+    }
+    
+    public void clear(){
+        for (int c = 0; c < getColumns(humanCells); c++) {
+            for (int r = 0; r < getRows(humanCells); r++) {
+                humanCells[c][r] = E;
+                bot1Cells[c][r] = E;
+                bot2Cells[c][r] = E;
+                bot3Cells[c][r] = E;
+            }
+        }
+    }
+    public boolean isValidX(int x){
+        return x >= 0 && x < humanCells.length;
+    }
+    
+    public boolean isValidY(int y){
+        return y >= 0 && y < humanCells[0].length;
+    }
+    public boolean isValidPosition(Pos p){
+        return isValidX(p.x()) && isValidY(p.y());
+    }
+    public boolean isEmplyPos(Pos p, Cards[][] cells){
+        return cells[p.x()][p.y()] == E;
+    }
+    public Cards getCells(int x, int y, Cards[][] cells){
+        assert isValidX(x);
+        assert isValidY(y);
+        
+        return cells[x][y];
+    }
+    public Cards getCells(Pos p, Cards[][] cells){
+        return getCells(p.x(), p.y(), cells);
+    }
+    public void setStarter(){
+        
+    }
+    public boolean fits(Domino domino, Pos pFst, Cards[][] cells){
+        return true;
+    }
+    
+    private int occupiedSide(Pos p, Cards[][] cells){
+        return 0;
+    }
+    private Pos touchCell(Pos p, Cards[][] cells){
+        return new Pos(0, 0);
+    }
+    public void lay(Domino domino, Pos pFst, Cards[][] cells){
+        //TODO
+    }
+    public Pos findPos(Domino domino, Cards[][] cells){
+        return new Pos(0, 0);
+    }
+    @Override
+    public String toString(){
+        return "NOTHING YET";
+    }
+}

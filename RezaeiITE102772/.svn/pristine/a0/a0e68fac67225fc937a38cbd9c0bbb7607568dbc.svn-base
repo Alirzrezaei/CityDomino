@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public abstract class Player {
+    
+    private final String name;
+    
+    private final Board board;
+    
+    private Domino crntDomino;
+    
+    private boolean bot = false;
+    
+    private boolean human = false;
+    
+    private GUIConnector gui;
+    
+    /**
+     * contractor to receive name of the player with board and current domino;
+     * @param name
+     * @param board
+     * @param domino 
+     */
+    Player(String name, Board board, Domino domino){
+        this.name = name;
+        this.board = board;
+        this.crntDomino = domino;   
+    }
+    /**
+     * a constructor that is receiving name and the dimensions of the board
+     * and current domino of player. 
+     * @param name
+     * @param x
+     * @param y
+     * @param domino 
+     */
+    Player(String name, int x, int y){
+        this.name = name;
+        this.board = new Board(gui, x, y); 
+    }
+    
+    public String getName(){
+        return this.name;
+    }
+    public Board getBoard(){
+        return this.board;
+    }
+    public Domino getDomino(){
+        return this.crntDomino;
+    }
+  
+}
+    

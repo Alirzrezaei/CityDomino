@@ -1,0 +1,240 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Random;
+/**
+ *
+ * @author Alireza
+ */
+public class Game implements GUItoGame{
+  
+    
+    private Player[] players;
+    private int [] currentRoundPlayers;
+    private int [] nextRoundPlayers;
+    private int currentPl;
+    
+    private Domino[] nextBox;
+    private Domino[] currentBox;
+    
+    private Domino CurrentDomino;
+    
+    
+    private GUIConnector gui;
+    
+    private final List<Domino> stack;
+    /**
+     * the main constructor to initiate the game from scratch. 
+     * @param gui
+     * @param x dimension for board
+     * @param y dimension for board
+     * @param totalPlayer human and bot players
+     * @param humanPlayer human players
+     */
+    public Game(GUIConnector gui, int x, int y, int totalPlayer, int humanPlayer){
+       
+        this.gui = gui;
+        players = new Player[totalPlayer];
+        for(int i = 0; i < totalPlayer; i++){
+            if(i < humanPlayer){
+                this.players[i] = new Human(gui, ""+ i, i,x, y);
+            }
+            else{
+                this.players[i] = new Bot(gui, ""+ i, i,x, y);
+            }
+        }
+        
+        this.nextBox = new Domino[totalPlayer];
+        this.currentBox = new Domino[totalPlayer];
+        this.CurrentDomino = null;
+        
+        this.stack = new LinkedList<>();
+        
+        this.currentRoundPlayers = new int[totalPlayer];
+        this.nextRoundPlayers = new int[totalPlayer];
+        for(int i = 0; i < totalPlayer; i++){
+            this.currentRoundPlayers[i] = i;
+            this.nextRoundPlayers[i] = -1;
+         }
+        deal(stack);
+    }
+    /*
+    Game(GUIConnector gui, int x, int y, Players currentPlayer, Domino currentDomino, Domino[] nextBox, Domino[] currentBox){
+        this.gui = gui;
+        this.currentPl = currentPlayer;
+        this.CurrentDomino = currentDomino;
+        this.hBoard = new Board(gui, x, y);
+        this.b1Board = new Board(gui, x, y);
+        this.b2Board = new Board(gui, x, y);
+        this.b3Board = new Board(gui, x, y);
+       // this.nextBox = new Domino[Next_Size];
+        for(int i = 0; i < nextBox.length; i++){
+            setToNextBox(i, nextBox[i]);
+        }
+        this.stack = new LinkedList<>();
+        start();
+          
+    }*/
+    /**
+     * constructor to test the game.  
+     * @param gui
+     * @param board 
+     */
+    public Game(GUIConnector gui, Board board){
+        Player p1 = new Human("TestPayer", 0, board, CurrentDomino); 
+        this.gui = gui;
+        this.stack = new LinkedList<>();
+    }
+    /**
+     * store the given domino in the given index and then update the GUI
+     * @param idx
+     * @param domino 
+     */
+    void setToNextBox(int idx, Domino domino){
+        this.nextBox[idx] = domino;
+        
+    }
+    /**
+     * the obtained domino from the giver stack is passed to set it to NextBox array
+     * @param stack 
+     */
+    void deal(List<Domino> stack){
+       stack = Domino.fill(stack);
+       System.out.println(players.length);
+       
+       for(int i = 0; i < players.length; i++){
+           setToNextBox(i, getDomFromStack(stack));
+           System.out.println(i);
+       }
+        sortNextBox();
+    }
+    /**
+     * this method is sorting the next box based on the ordinal of the tile
+     */
+    private void sortNextBox(){
+        Domino temp; 
+        
+        
+        for(int i = 0; i < nextBox.length; i++){
+            System.out.println(nextBox[i].getFst()+ " " + nextBox[i].getSnd());
+            for(int j = i; j < nextBox.length; j++){
+                if(nextBox[i].getTiles().ordinal() > nextBox[j].getTiles().ordinal()){
+                    temp = nextBox[j];
+                    nextBox[j] = nextBox[i]; 
+                    nextBox[i] = temp;
+                }
+            }
+            System.out.println(i);
+            System.out.println(nextBox[i].getFst()+ " " + nextBox[i].getSnd());
+            gui.setToNext(i, nextBox[i]);
+            //update the GUI;
+        }
+    }
+    /**
+     * get a domino from the stack randomly and delete it after return. 
+     * @param stack
+     * @return the random domino from stack and delete it from stack
+     */
+    Domino getDomFromStack(List<Domino> stack) {
+        Random rand = new Random();
+        return stack.size() > 0
+                ? stack.remove(rand.nextInt(stack.size()))
+                : null;
+    }
+    
+    Cards[][] getBoard(Board board){
+       return board.getCells();
+    }
+    
+    Tiles[] getNextBox(){
+        Tiles[] result = new Tiles[players.length];
+        
+        for(int i = 0; i < players.length; i++){
+            result[i] = (nextBox[i].getTiles());
+        }
+        
+        return result;
+    }
+    
+    private void setToCurrentBox(Domino domino){
+        CurrentDomino = domino;
+        //TODO I should update GUI
+ 
+    }
+    List<Domino> getStack(){
+        return stack;
+    }
+    
+    @Override
+    public void start() {
+        
+        deal(stack);
+    }
+    boolean end(){
+        return true;
+    }
+    void tryDominoForPlayer(Player pl){
+        // TODO make it with choose class
+    }
+    void noTurnPossible(Player pl){
+        // check if current player can put its domino into board
+    }
+    void nextPlayer(){
+        // should be changed to next player
+    }
+    int[] CalcPoints(Board board){
+        int[] points = new int[players.length];
+        //TODO I would write the point for each player
+        
+        return points;
+    }   
+    
+    int pointsOfPrestige(Cards card){
+        return 0;
+    }
+    void BotTurns(){
+        //each bot should be able to play
+        
+    }
+    
+    @Override
+    public void save() {
+    }
+
+    @Override
+    public void load() {
+    }
+
+    @Override
+    public void currentBoxClick() {
+        assert(players[currentPl].getCrntDomino() != null);
+        
+        //players[currentPl].getCrntDomino().rotIncrement();
+        CurrentDomino.rotIncrement();
+        gui.showInChooseBox(CurrentDomino);
+    }
+
+    @Override
+    public void clickOnNext(int idx) {
+        System.out.println(nextBox[idx].getFst());
+        System.out.println(nextBox[idx].getSnd());
+        CurrentDomino = nextBox[idx];
+        gui.showInChooseBox(CurrentDomino);
+    }
+
+    @Override
+    public boolean fits() {
+       return true;
+    }
+
+    @Override
+    public void setOnTheBoard() {
+        
+    }
+    
+}

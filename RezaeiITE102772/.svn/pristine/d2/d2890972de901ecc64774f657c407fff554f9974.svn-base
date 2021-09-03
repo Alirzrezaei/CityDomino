@@ -1,0 +1,28 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public interface GUItoGame {
+    
+    
+    void start();
+    
+    void save();
+    
+    void load();
+    
+    void currentBoxClick();
+    
+    void clickOnNext(int idx);
+    
+    boolean fits(Pos pos);
+    
+    void setOnTheBoard(Pos pos);
+}

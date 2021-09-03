@@ -1,0 +1,84 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+import java.util.Random;
+
+/**
+ *
+ * @author Alireza
+ */
+public class Bot extends Player{
+    
+    private final boolean isBot = true;
+    /**
+     * a constructor to receive board and domino for the user
+     * @param name
+     * @param board
+     * @param domino 
+     */
+    public Bot(String name, int id, Board board, Domino domino) {
+        super(name, id,board, domino);
+  
+    }
+    /**
+     * the constructor to receive dimensions to create a board for player
+     * @param gui
+     * @param name
+     * @param x
+     * @param y 
+     */
+    public Bot(GUIConnector gui, String name, int id, int x, int y){
+        super(gui, "Bot"+name, id, x, y);
+ 
+    }
+    /**
+     * this method returns true on call to tell that this player is a bot player 
+     * @return true
+     */
+    @Override
+    public boolean isBot(){
+        return this.isBot;
+    }
+    /**
+     * when the player is bot in the game, this method will be called and do all necessary things for 
+     * bot to choose a card from next box and then put its current card into field 
+     */
+    public void botTurn(Domino[] nextBox, int[] nextRoundPlayer){
+        int idx = -1;
+        boolean choose = false;
+        Random rand  = new Random();
+        while(!choose){
+            int i = rand.nextInt(4);
+            System.out.println(i);
+            if(nextRoundPlayer[i] == -1){
+                System.out.println("choose is true");
+                idx = i;
+                choose = true;
+            }
+        }
+        
+        System.out.println("find position");
+        
+        Pos pos  = this.getBoard().findPos(this.getCrntDomino());
+        
+        System.out.println("let see the position");
+        System.out.println("idx, " + idx);
+        
+        this.setFoundPos(pos);
+        this.setNextBoxIndex(idx);
+        if(pos != null){
+            System.out.println("position found");
+        }else{
+            System.out.println("position not found");
+        }
+        
+        if(pos != null){
+            this.getBoard().lay(this.getCrntDomino(), pos);
+            
+        }
+        
+    }
+}

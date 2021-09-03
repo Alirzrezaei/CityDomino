@@ -1,0 +1,233 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gui;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import logic.GUItoGame;
+
+/**
+ *
+ * @author Alireza
+ */
+public class FXMLDocumentController implements Initializable {
+
+    @FXML
+    private BorderPane bdrPnMain;
+    @FXML
+    private Label lblNextRoundCards;
+    @FXML
+    private GridPane grdPnNextCards;
+    @FXML
+    private Pane pnCurrentCard;
+    @FXML
+    private Label lblCurrentCard;
+    @FXML
+    private Button btnNewGame;
+    @FXML
+    private Label lblPlayerField;
+    @FXML
+    private GridPane grdPnField;
+    @FXML
+    private Label lblDiscardArea;
+    @FXML
+    private Pane pnDiscard;
+    @FXML
+    private GridPane grdPnAI3;
+    @FXML
+    private GridPane grdPnAI2;
+    @FXML
+    private GridPane grdPnAI1;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private Button btnLoad;
+    
+    private GUItoGame game;
+    private JavaFXGUI gui;
+    @FXML
+    private GridPane grdPnCurrents;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+
+        ImageView[][] imgVwsGame = addImageViewsToGrid(grdPnField);
+        this.addDragAndDropHandlers(imgVwsGame);
+        //this.addDragAndDropHandlers(pnDiscard);
+            
+        ImageView[][] imgVwsAI1 = addImageViewsToGrid(grdPnAI1);
+        ImageView[][] imgVwsAI2 = addImageViewsToGrid(grdPnAI2);
+        ImageView[][] imgVwsAI3 = addImageViewsToGrid(grdPnAI3);
+        
+        ImageView[][] imgVwsNext = addImageViewsToGrid(grdPnNextCards);
+        ImageView[][] imgVwscurrent = addImageViewsToGrid(grdPnCurrents);
+
+        //initialize GUI with selected pane, boards, next box and current box 
+        gui = new JavaFXGUI(pnCurrentCard, imgVwsGame, imgVwsAI1, imgVwsAI2, imgVwsAI3, imgVwsNext, imgVwscurrent);
+        
+        //initializ the game with passing gui, size of X axis of board, size of Y axis of board
+        // number of total player and number of human player
+        this.game = new logic.Game(this.gui, grdPnField.getColumnConstraints().size(), 
+                grdPnField.getRowConstraints().size(), 4, 1);
+        
+    }
+
+    private ImageView[][] addImageViewsToGrid(GridPane grdPn) {
+        int colcount = grdPn.getColumnConstraints().size();
+        int rowcount = grdPn.getRowConstraints().size();
+
+        ImageView[][] imgVwsGame = new ImageView[colcount][rowcount];
+
+        for (int x = 0; x < colcount; x++) {
+            for (int y = 0; y < rowcount; y++) {
+                //creates an imageview with the empty image (for some reasons there needs to an image there for the drag and drop to work :()
+                imgVwsGame[x][y] = new ImageView(JavaFXGUI.EMPTY_IMG);
+
+                //add the imageview to the cell and
+                //assign the correct indicees for this imageview, so you later can use GridPane.getColumnIndex(Node)
+                grdPn.add(imgVwsGame[x][y], x, y);
+
+                //the image shall resize when the cell resizes
+                imgVwsGame[x][y].fitWidthProperty().bind(grdPn.widthProperty().divide(colcount).subtract(grdPn.getHgap()));
+                imgVwsGame[x][y].fitHeightProperty().bind(grdPn.heightProperty().divide(rowcount).subtract(grdPn.getVgap()));
+            }
+        }
+        return imgVwsGame;
+    }
+
+    private void addDragAndDropHandlers(ImageView[][] imgVwsGame) {
+        for (int x = 0; x < imgVwsGame.length; x++) {
+            for (int y = 0; y < imgVwsGame[x].length; y++) {
+                final int fx = x; 
+                final int fy = y; 
+                imgVwsGame[x][y].setOnDragOver((EventHandler<DragEvent>) (DragEvent event) -> {
+                    if (event.getGestureSource() != imgVwsGame) {
+                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+                    }
+                    event.consume();
+                });
+
+                imgVwsGame[x][y].setOnDragDropped((EventHandler<DragEvent>) (DragEvent event) -> {
+                    boolean success = false;
+
+                    gui.setImageOnBoard(fx, fy);
+                        success = true;
+                    event.setDropCompleted(success);
+                    event.consume();
+                });
+            }
+        }
+    }
+
+    @FXML
+    private void onClickStartGame(ActionEvent event) throws IOException {
+       // placeCityHall(grdPnField);
+        //placeCityHall(grdPnAI1);
+        //placeCityHall(grdPnAI2);
+        //placeCityHall(grdPnAI3);
+        gui.placeCityHall(grdPnField);
+        gui.placeCityHall(grdPnAI1);
+        gui.placeCityHall(grdPnAI2);
+        gui.placeCityHall(grdPnAI3);
+       // gui.cardsOnNextSelection();
+        //pnCurrentCard.
+        
+    }
+    /*
+    private void placeCityHall(GridPane gridPanes) {
+        int colcount = gridPanes.getColumnConstraints().size();
+        int rowcount = gridPanes.getRowConstraints().size();
+
+        ImageView imgVwsCityHall = new ImageView(JavaFXGUI.CITYHALL_IMG);
+        gridPanes.add(imgVwsCityHall, 2, 2);
+
+        imgVwsCityHall.fitWidthProperty().bind(gridPanes.widthProperty().divide(colcount).subtract(gridPanes.getHgap()));
+        imgVwsCityHall.fitHeightProperty().bind(gridPanes.heightProperty().divide(rowcount).subtract(gridPanes.getVgap()));
+
+    }
+    */
+    @FXML
+    private void grdPnSelectedMouseClick(MouseEvent event) {
+        int x = -1;
+        int y = -1; 
+        
+        boolean leftClicked = event.getButton() == MouseButton.PRIMARY;
+        boolean rightClicked = event.getButton() == MouseButton.SECONDARY;
+        
+        for (Iterator<Node> it = grdPnNextCards.getChildren().iterator(); it.hasNext();) {
+            Node node = it.next();
+            if (node instanceof ImageView) {
+                if (node.getBoundsInParent().contains(event.getX(), event.getY())) {
+                    //to use following methods the columnIndex and rowIndex
+                    //must have been set when adding the imageview to the grid
+                    x = GridPane.getColumnIndex(node);
+                    y = GridPane.getRowIndex(node);
+                }
+            }
+        }
+
+        if (x >= 0 && y >= 0 && leftClicked) {
+            this.gui.clickOnNextBox(x, y);
+        }
+        
+        ImageView imgVwsSelectBox = new ImageView();
+        
+        
+    }
+
+    @FXML
+    private void onDragDetectedPnSelected(MouseEvent event) {
+         /* drag was detected, start a drag-and-drop gesture*/
+        /* allow any transfer mode */
+        Dragboard dbDrag = this.pnCurrentCard.startDragAndDrop(TransferMode.MOVE);
+        ClipboardContent content = new ClipboardContent();
+
+        content.putString("");
+        dbDrag.setContent(content);
+
+        dbDrag.setDragView(this.pnCurrentCard.snapshot(new SnapshotParameters(), null), 10, 10);
+
+        event.consume();
+    }
+
+    @FXML
+    private void onClickSaveGame(ActionEvent event) {
+    }
+
+    @FXML
+    private void onClickLoadGame(ActionEvent event) {
+    }
+
+}

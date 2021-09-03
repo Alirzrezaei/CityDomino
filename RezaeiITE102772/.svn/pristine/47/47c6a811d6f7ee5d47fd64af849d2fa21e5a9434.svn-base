@@ -1,0 +1,275 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public class Board {
+    
+    private Cards[][] cells;
+    private Pos cityCenterPos;
+    
+    
+    private final Cards E = Cards.E;
+    private final Cards CC = Cards.CC;
+    
+    private GUIConnector gui;
+    
+    
+    
+    public Board(GUIConnector gui, int x, int y){
+        this.gui = gui;
+        
+        this.cells = new Cards[x][y];
+        this.clear();
+        
+        setStarter();
+    }
+    
+    /**
+     * this constructor is for testing. 
+     * @param hCells
+     * @param gui 
+     */
+    Board(GUIConnector gui, Cards[][] cells){
+        this.cells = cells;
+        this.gui = gui;
+        setStarter();
+    }
+    
+    
+    Cards[][] getCells(){
+        return this.cells;
+    }
+    
+    public int getRows(){
+        return cells.length;
+    }
+    public int getColumns(){
+        return cells[0].length;
+    }
+    
+    public void clear(){
+        for (int c = 0; c < getColumns(); c++) {
+            for (int r = 0; r < getRows(); r++) {
+                cells[c][r] = E;   
+            }
+        }
+    }
+    public boolean isValidX(int x){
+        return x >= 0 && x < cells.length;
+    }
+    
+    public boolean isValidY(int y){
+        return y >= 0 && y < cells[0].length;
+    }
+    public boolean isValidPosition(Pos p){
+        return isValidX(p.x()) && isValidY(p.y());
+    }
+    public boolean isEmplyPos(Pos p){
+        return cells[p.x()][p.y()] == E;
+    }
+    public Cards getCells(int x, int y){
+        assert isValidX(x);
+        assert isValidY(y);
+        
+        return cells[x][y];
+    }
+    public Cards getCells(Pos p){
+        return getCells(p.x(), p.y());
+    }
+    
+    /**
+     * this method is putting the city center in the middle of the board and
+     * update the graphic with picture.
+     */
+    public void setStarter(){
+        
+        int x = (int) (cells.length / 2);
+        int y = (int) (cells[0].length / 2);
+        
+        cityCenterPos = new Pos(x, y);
+        cells[cityCenterPos.x()][cityCenterPos.y()] = CC;
+        
+        
+        
+        
+        //TODO graphic 
+        
+    }
+    /**
+     * Check if the given domino and position is fitted in the board.
+     * 
+     * @param domino
+     * @param pFst
+     * @return 
+     */
+    public boolean fits(Domino domino, Pos pFst){
+        assert(isValidPosition(pFst));
+        assert(domino != null);
+        
+        Pos pSnd = domino.getsnd(pFst);
+        Pos[] posNeighbors = touchCell(pFst);
+        Pos[] posSndNeighbors = touchCell(pSnd);
+        boolean isFit = false;
+        
+        if(isAtBank(pFst) && occupiedSide(pFst) == 3){
+            return false;
+        }else if(isCorner(pFst) && occupiedSide(pFst) == 2){
+            return false;
+        }else if(occupiedSide(pFst) == 4){
+            return false;
+        }else{
+            for(int i = 0; posNeighbors != null && i < posNeighbors.length; i++){
+                if( cells[cityCenterPos.x()][cityCenterPos.y()].getType() == cells[posNeighbors[i].x()][posNeighbors[i].y()].getType() || 
+                       domino.getTiles().getFirst().getType()== cells[posNeighbors[i].x()][posNeighbors[i].y()].getType() || 
+                       domino.getTiles().getSecond().getType()== cells[posNeighbors[i].x()][posNeighbors[i].y()].getType()){
+                    return true;
+                }
+            }
+           
+            for(int i = 0; posSndNeighbors != null && i < posSndNeighbors.length; i++){
+                if( cells[cityCenterPos.x()][cityCenterPos.y()].getType() == cells[posSndNeighbors[i].x()][posSndNeighbors[i].y()].getType() || 
+                       domino.getTiles().getFirst().getType()== cells[posSndNeighbors[i].x()][posSndNeighbors[i].y()].getType() || 
+                       domino.getTiles().getSecond().getType()== cells[posSndNeighbors[i].x()][posSndNeighbors[i].y()].getType()){
+                    return true;
+                }
+            }
+        }
+        
+        return isFit;
+    }
+    /**
+     * return number of occupied sides of the given position
+     * @param p
+     * @return 
+     */
+    private int occupiedSide(Pos p){
+        assert(p != null);
+        assert(isValidPosition(p));
+        
+        Pos [] neighbors =  p.getNeigbors();
+        int sumOfOccupied = 0;
+        
+        for (Pos neighbor : neighbors) {
+            if (isValidPosition(neighbor) && !isEmplyPos(neighbor)) {
+                sumOfOccupied++;
+            }
+        }
+        return sumOfOccupied;
+    }
+    /**
+     * return the positions of the touched cells for given position
+     * @param p
+     * @return 
+     */
+    private Pos[] touchCell(Pos p){
+        assert(p != null);
+        
+        assert(isValidPosition(p));
+        
+        Pos[] positions = new Pos[occupiedSide(p)];
+        Pos[] neighbors = p.getNeigbors();
+        int j = 0;
+        for(int i = 0; i < neighbors.length; i++){
+            if(isValidPosition(neighbors[i]) && !isEmplyPos(neighbors[i])){
+                positions[j] = neighbors[i];
+                j++;
+            }
+            
+        }
+        
+        if(positions.length > 0){
+            return positions;
+        }
+        else{
+           return null; 
+        }
+    }
+    /**
+     * this method is laying the given domino in the given position
+     * and update graphic with this Domino. 
+     * @param domino
+     * @param pFst 
+     */
+    public void lay(Domino domino, Pos pFst){
+        assert(domino != null);
+        
+        Pos pSnd = domino.getsnd(pFst);
+        
+        this.cells[pFst.x()][pFst.y()] = domino.getFst();
+        this.cells[pSnd.x()][pSnd.y()] = domino.getsnd();
+        
+        // update GUI
+    }
+    /**
+     * this method is receives a domino and try to find a position for that. 
+     * @param domino
+     * @return 
+     */
+    public Pos findPos(Domino domino){
+         boolean found = false;
+        Pos pos = null;
+        for (int i = 0; i < getRows() && !found; i++) {
+            for (int j = 0; j < getColumns()&& !found; j++) {
+                    pos = new Pos(j, i);
+                    for(int k = 0; !found && k < 4; k++){
+                    //while (!found && counter < 4) {
+                        found = fits(domino, pos);
+                        if (!found) {
+                            domino.rotIncrement();
+                        }
+                    }
+                }
+        }
+        return found ? pos : null;
+    }
+    /**
+     * checks if the given position is at the corner of the board
+     * @param pos
+     * @return true if position is at the corner of board
+     */
+    private boolean isCorner(Pos pos){
+        if(pos.x() == 0 && pos.y() == 0){
+            return true;
+        }else if(pos.x() == this.cells.length -1 && pos.y() == this.cells.length -1){
+            return true;
+        }else if(pos.x() == 0 && pos.y() == this.cells.length -1){
+            return true;
+        }else if(pos.x() == this.cells.length -1 && pos.y() == 0){
+            return true;
+        }else return false;
+        
+    }
+    private boolean isAtBank(Pos pos){
+        return (pos.x() == 0 || pos.y() == 0 || pos.x() == this.cells.length -1 || 
+                pos.y() == this.cells.length -1) && (!isCorner(pos));
+    }
+    @Override
+    public String toString(){
+        return "NOTHING YET";
+    }
+    
+    //for test
+    public int testOccupiedSide(Pos pos){
+        return occupiedSide(pos);
+    }
+    //for test
+    public Pos[] testTouchedCells(Pos pos){
+        return touchCell(pos);
+    }
+    //for test
+    public boolean testIsCorner(Pos pos){
+        return isCorner(pos);
+    }
+    //for test
+    public boolean testIsAtBank(Pos pos){
+        return isAtBank(pos);
+    }
+            
+}

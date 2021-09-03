@@ -1,0 +1,60 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public class Pos {
+    
+    private final int x;
+    private final int y;
+    
+    
+    public Pos(int x, int y){
+        this.x = x;
+        this.y = y; 
+    }
+    
+    public int x(){
+        return this.x;
+    }
+    public int y(){
+        return this.y;
+    }
+    public boolean isNextPos(Pos pos){
+        int xDiffer = Math.abs(x - pos.x());
+        int yDiffer = Math.abs(y - pos.y());
+        
+        return ((xDiffer == 1 && yDiffer == 0) || (xDiffer == 0 && yDiffer == 1));
+    }
+    /**
+     * calculate neighbors of this position.
+     * @return array of neighbor for this position
+     */
+    public Pos[] getNeigbors(){
+         
+        Pos[] neighbours = new Pos[4];
+        neighbours[0] = new Pos(this.x-1, this.y  );
+        neighbours[1] = new Pos(this.x  , this.y-1); 
+        neighbours[2] = new Pos(this.x+1, this.y)  ; 
+        neighbours[3] = new Pos(this.x  , this.y+1); 
+        return neighbours;
+    }
+    /**
+     * two positions are equal if the x-values and y-values are equal 
+     * @param obj
+     * @return true, if the x-values and y-values are equal 
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null &&
+                obj.getClass() == this.getClass() &&
+                ((Pos)obj).x == this.x &&
+                ((Pos)obj).y == this.y;
+    }
+}

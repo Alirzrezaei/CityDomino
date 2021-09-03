@@ -1,0 +1,148 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+import static logic.Cards.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/**
+ *
+ * @author Alireza
+ */
+public class BoardTest {
+    
+    public BoardTest() {
+    }
+
+    @Test
+    public void testConstructor() {
+        Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertEquals(H0, board.getCells()[0][2]);
+        assertEquals(CC, board.getCells()[2][2]);
+    }
+     @Test
+    public void testConstrucot_x_y_Empty(){
+        Board board = new Board(new FakeGUI(), 5, 5);
+        
+        assertEquals(E, board.getCells(2, 2));
+        assertEquals(E, board.getCells(2, 4));
+        
+    }
+    @Test
+    public void testConstrucot_x_y_False(){
+        Board board = new Board(new FakeGUI(), 5, 5);
+        
+        assertFalse(board.isValidX(-1));
+        assertFalse(board.isValidX(6));
+        assertFalse(board.isValidY(-1));
+        assertFalse(board.isValidY(7));
+    }
+     @Test
+    public void testConstrucot_x_y_True(){
+        Board board = new Board(new FakeGUI(), 5, 5);
+        
+        assertTrue(board.isValidX(0));
+        assertTrue(board.isValidX(4));
+        assertTrue(board.isValidY(3));
+        assertTrue(board.isValidY(2));
+    }
+    @Test
+    public void testFits(){
+         Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertTrue(board.fits(new Domino(Tiles.H0_H0_5, 0), new Pos(0, 0)));
+        
+    }
+     @Test
+    public void testFits_sideBySide(){
+         Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertTrue(board.fits(new Domino(Tiles.H0_S0_18, 0), new Pos(1, 2)));    
+    }
+    @Test
+    public void testFits_false_NoTouch(){
+         Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertFalse(board.fits(new Domino(Tiles.H0_S0_18, 0), new Pos(4, 3)));    
+    }
+    @Test
+    public void testFits_Touch_NoFit(){
+         Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertFalse(board.fits(new Domino(Tiles.P1_H0_19, 0), new Pos(1, 2)));    
+    }
+    @Test
+    public void testOccupSides(){
+         Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertEquals(3, board.testOccupiedSide(new Pos(1, 2)));    
+    }
+     @Test
+    public void testOccupSides_zeroTouch(){
+         Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertEquals(0, board.testOccupiedSide(new Pos(4, 4)));    
+    }
+     @Test
+    public void testFindPos1(){
+         Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertEquals(new Pos(0, 0), board.findPos(new Domino(Tiles.H0_H0_4)));    
+    }
+    @Test
+    public void testFindPos2(){
+         Board board = new Board(new FakeGUI(), new Cards[][]{
+            {E, E, H0, S0, E}, 
+            {E, H0, E, E, E}, 
+            {E, P1, CC, E, E}, 
+            {E, P1, S0, E, E},
+            {E, E, E, E, E}
+        });
+        assertEquals(new Pos(0, 4), board.findPos(new Domino(Tiles.S0_S0_11)));    
+    }
+}

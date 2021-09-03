@@ -1,0 +1,56 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public enum Cards {
+    A0(0, CardType.AMUSEMENT),  A1(1, CardType.AMUSEMENT),  A2(2, CardType.AMUSEMENT),  A3(3, CardType.AMUSEMENT),
+    H0(0, CardType.HOME),       H1(1, CardType.HOME),       H2(2, CardType.HOME),       H3(3, CardType.HOME),
+    I0(0, CardType.INDUSTRY),    I1(1, CardType.INDUSTRY),    I2(3, CardType.INDUSTRY),    I3(3, CardType.INDUSTRY),
+    O0(0, CardType.OFFICE),     O1(1, CardType.OFFICE),     O2(2, CardType.OFFICE),     O3(3, CardType.OFFICE),
+    P0(0, CardType.PARK),       P1(1, CardType.PARK),       P2(2, CardType.PARK),       P3(3, CardType.PARK),    
+    S0(0, CardType.SHOPPING),   S1(1, CardType.SHOPPING),   S2(2, CardType.SHOPPING),   S3(3, CardType.SHOPPING), 
+      
+    CC(0, CardType.CITYCENTER), E(0, CardType.EMPTY);
+    
+    /**
+     * each card has a prestige as a point that can be calculated at the end of 
+     * game for score of player
+     */
+    private int point;
+    
+    /**
+     * each card had a type and card with same type can be laid beside in the field
+     */
+    private CardType type;
+    
+    /**
+     * constructor to make a card with prestige and type
+     * @param point
+     * @param type 
+     */
+    Cards(int point, CardType type){
+        this.point = point;
+        this.type = type;
+    }
+    /**
+     * this method is returning prestige of each card
+     * @return Prestige of each card
+     */
+    int getPoint(){
+        return point;
+    }
+    /**
+     * this method is returning the type of each card
+     * @return type of the card
+     */
+    CardType getType(){
+        return type;
+    }
+}

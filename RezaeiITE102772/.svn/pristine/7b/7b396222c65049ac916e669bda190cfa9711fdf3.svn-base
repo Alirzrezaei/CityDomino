@@ -1,0 +1,44 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package logic;
+
+/**
+ *
+ * @author Alireza
+ */
+public enum Tiles {
+    ONE(Cards.P0, Cards.P0),    TWO(Cards.P0, Cards.P0),    THREE(Cards.H0, Cards.H0),  FOUR(Cards.H0, Cards.H0) , 
+    FIVE(Cards.H0, Cards.H0),   SIX(Cards.H0, Cards.H0),    SEVEN(Cards.A0, Cards.A0),  EIGHT(Cards.A0, Cards.A0),
+    NINE(Cards.A0, Cards.A0),   TEN(Cards.S0, Cards.S0),    ELEVEN(Cards.S0, Cards.S0), TWELVE(Cards.O0, Cards.O0),
+    THIRTEEN(Cards.P0, Cards.H0), FOURTEEN(Cards.P0, Cards.A0), FIFTEEN(Cards.P0, Cards.S0), SIXTEEN(Cards.P0, Cards.O0), 
+    SEVENTEEN(Cards.H0, Cards.A0), EIGHTTEEN(Cards.H0, Cards.S0), NINTEEN(Cards.P1, Cards.H0), TWENTY(Cards.P1, Cards.A0),
+    TWENTYONE(Cards.P1, Cards.S0), TWENTYTWO(Cards.P1, Cards.O0), TWENTYTHREE(Cards.P1, Cards.I0), TWENTYFOUR(Cards.H1, Cards.P0),
+    TWENTYFIVE(Cards.H1, Cards.P0), TWENTYSIX(Cards.H1, Cards.P0), TWENTYSEVEN(Cards.H1, Cards.P0), TWENTYEIGHT(Cards.H1, Cards.A0),
+    TWENTYNINE(Cards.H1, Cards.S0), THIRTY(Cards.A1, Cards.P0), THIRTYONE(Cards.A1, Cards.P0), THIRTYTWO(Cards.A1, Cards.H0), 
+    THITYTHREE(Cards.A1, Cards.H0), THIRTYFOUR(Cards.A1, Cards.H0), THIRTYFIVE(Cards.A1, Cards.H0), THIRTYSIX(Cards.P0, Cards.S1), 
+    THIRTYSEVEN(Cards.A0, Cards.S1), THIRTYEIGHT(Cards.P0, Cards.O1), THIRTYNINE(Cards.S0, Cards.O1), FOURTY(Cards.I1, Cards.P0), 
+    FOURTYONE(Cards.P0, Cards.S2), FOURTYTWO(Cards.A0, Cards.S2), FOURTYTHREE(Cards.P0, Cards.O2), FOURTYFOUR(Cards.S0, Cards.O2), 
+    FOURTYFIVE(Cards.I2, Cards.P0), FOURTYSIX(Cards.O0, Cards.I2), FOURTYSEVEN(Cards.O0, Cards.I2), FOURTYEIGHT(Cards.P0, Cards.I3);  
+    
+    
+    private final Cards fst;
+    private final Cards snd;
+    
+    Tiles(Cards fst, Cards snd){
+        this.fst = fst;
+        this.snd = snd;
+    }
+    
+    public Cards getFirst(){
+        return fst;
+    }
+    public Cards getSecond(){
+        return snd;
+    }
+    public String toString(){
+        return "Tile: " + this.name()+ " First: " + this.getFirst() + " Second: " + this.getSecond();
+    }
+}
